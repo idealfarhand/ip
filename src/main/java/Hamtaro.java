@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Hamtaro {
     public static void main(String[] args) {
@@ -15,6 +16,8 @@ public class Hamtaro {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
+        ArrayList<String> list = new ArrayList<>();
+
         while(flag){
             String userInput = scanner.nextLine();
             if(userInput.equals("bye")){
@@ -25,8 +28,15 @@ public class Hamtaro {
                 continue;
             }
 
+            else if(userInput.equals("list")){
+                for(int i = 0; i < list.size();i++){
+                    System.out.println( (i+1) + ". " + list.get(i));
+                }
+            }
+
+            list.add(userInput);
             System.out.println("____________________________________________________________");
-            System.out.println(userInput);
+            System.out.println("Added: " + userInput);
             System.out.println("____________________________________________________________");
         }
     }
