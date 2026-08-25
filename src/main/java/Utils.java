@@ -120,4 +120,23 @@ public class Utils {
             throw new HamtaroException("Invalid Argument Length! Usage: bye");
         }
     }
+
+    public static void parseDelete(String userInput, int arrayLen) throws HamtaroException{
+        String[] words = userInput.split(" ");
+        if(words.length == 1){
+            throw new HamtaroException("Invalid Argument Length! Usage: delete [task number]");
+        }
+
+        if(words.length > 2){
+            throw new HamtaroException("Invalid Argument Length! Usage: delete [task number]");
+        }
+
+        if(!isInteger(words[1])){
+            throw new HamtaroException(words[1] + " is not a number! Usage: delete [task number]");
+        }
+
+        if(Integer.parseInt(words[1]) > arrayLen || Integer.parseInt(words[1]) < 0){
+            throw new HamtaroException("Task number " + words[1] + " does not exist!");
+        }
+    }
 }

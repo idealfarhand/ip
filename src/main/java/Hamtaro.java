@@ -132,6 +132,23 @@ public class Hamtaro {
                 }
             }
 
+            else if(userInput.startsWith("delete")){
+                try{
+                    Utils.parseDelete(userInput, list.size());
+
+                    int taskNumber = Integer.parseInt(words[1]);
+                    Task temp = list.get(taskNumber - 1);
+                    list.remove(taskNumber - 1);
+
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Okay! I've deleted this task: ");
+                    System.out.println(temp.toString());
+                    System.out.println("____________________________________________________________");
+                } catch (HamtaroException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
             else{
                 System.out.println("____________________________________________________________");
                 System.out.println("Command doesn't exist!");
