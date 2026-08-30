@@ -1,3 +1,4 @@
+/** Represents a task tracked by Hamtaro. */
 public class Task {
         private String description;
         private boolean isDone;
@@ -22,6 +23,16 @@ public class Task {
 
         public String getStatusIcon(){
             return (isDone? "X" : " ");
+        }
+
+        /** Returns the task description for persistent storage. */
+        public String getDescription() {
+            return description;
+        }
+
+        /** Returns whether this task has been completed. */
+        public boolean isDone() {
+            return isDone;
         }
 
         @Override
