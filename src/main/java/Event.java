@@ -1,3 +1,4 @@
+/** A task that takes place over a specified time range. */
 public class Event extends Task{
     private String from;
     private String to;
@@ -6,6 +7,22 @@ public class Event extends Task{
         super(description);
         this.from = from;
         this.to = to;
+    }
+
+    public Event(String description, String from, String to, boolean isDone) {
+        super(description, isDone);
+        this.from = from;
+        this.to = to;
+    }
+
+    /** Returns the event start text for persistent storage. */
+    public String getFrom() {
+        return from;
+    }
+
+    /** Returns the event end text for persistent storage. */
+    public String getTo() {
+        return to;
     }
 
     @Override
