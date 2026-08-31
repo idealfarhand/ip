@@ -1,3 +1,10 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+
 public class Utils {
     public static void printBanner(){
         System.out.println("____________________________________________________________");
@@ -138,5 +145,44 @@ public class Utils {
         if(Integer.parseInt(words[1]) > arrayLen || Integer.parseInt(words[1]) < 0){
             throw new HamtaroException("Task number " + words[1] + " does not exist!");
         }
+    }
+
+    public static LocalDate parseDate(String input) throws IllegalArgumentException {
+        String[] formats = {"dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd"};
+
+        for (String format : formats) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                // Try the next format
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid date format");
+    }
+
+    public static LocalDateTime parseDateTime(String input) throws IllegalArgumentException {
+        String[] formats = {
+                "dd/MM/uuuu HHmm",
+                "dd-MM-uuuu HHmm",
+                "uuuu/MM/dd HHmm",
+                "uuuu-MM-dd HHmm",
+        };
+
+        for (String format : formats) {
+            try {
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .appendPattern(format)
+                        .toFormatter()
+                        .withResolverStyle(ResolverStyle.STRICT);
+
+                return LocalDateTime.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                // Try the next format
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid date/time format");
     }
 }

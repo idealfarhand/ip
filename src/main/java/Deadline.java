@@ -1,25 +1,29 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /** A task that must be completed by a specified time. */
 public class Deadline extends Task{
-    protected String by;
+    protected LocalDate by;
 
 
-    public Deadline(String description, String by){
+    public Deadline(String description, LocalDate by){
         super(description);
         this.by = by;
     }
 
-    public Deadline(String description, String by, boolean isDone) {
+    public Deadline(String description, LocalDate by, boolean isDone) {
         super(description, isDone);
         this.by = by;
     }
 
     /** Returns the deadline text for persistent storage. */
-    public String getBy() {
-        return by;
+    public LocalDate getBy() {
+        return this.by;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        return "[D]" + super.toString() + " (by: " + this.by.format(dtf) + ")";
     }
 }
