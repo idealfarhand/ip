@@ -39,12 +39,12 @@ public class Storage {
     private static String encodeTask(Task task) {
         String done = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
-            return "T | " + done + " | " + encode(task.getDescription());
+            return "T | " + done + " | " + task.getDescription();
         } else if (task instanceof Deadline deadline) {
-            return "D | " + done + " | " + encode(task.getDescription()) + " | " + encode(deadline.getBy());
+            return "D | " + done + " | " + task.getDescription() + " | " + deadline.getBy().toString();
         } else if (task instanceof Event event) {
-            return "E | " + done + " | " + encode(task.getDescription()) + " | "
-                    + encode(event.getFrom()) + " | " + encode(event.getTo());
+            return "E | " + done + " | " + task.getDescription() + " | "
+                    + event.getFrom() + " | " + event.getTo();
         }
         throw new IllegalArgumentException("Unsupported task type: " + task.getClass().getSimpleName());
     }
@@ -59,23 +59,15 @@ public class Storage {
 
         try {
             if (fields[0].equals("T") && fields.length == 3) {
-                return new Todo(decode(fields[2]), isDone);
+                return new Todo(fields[2], isDone);
             } else if (fields[0].equals("D") && fields.length == 4) {
-                return new Deadline(decode(fields[2]), decode(fields[3]), isDone);
+                return new Deadline(fields[2], Utils.parseDate(fields[3]), isDone);
             } else if (fields[0].equals("E") && fields.length == 5) {
-                return new Event(decode(fields[2]), decode(fields[3]), decode(fields[4]), isDone);
+                return new Event(fields[2], Utils.parseDateTime(fields[3]), Utils.parseDateTime(fields[4]), isDone);
             }
             throw new IOException("Invalid saved task: " + line);
         } catch (IllegalArgumentException e) {
             throw new IOException("Invalid saved task: " + line, e);
         }
-    }
-
-    private static String encode(String value) {
-        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private static String decode(String value) {
-        return new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
     }
 }

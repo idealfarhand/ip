@@ -1,6 +1,11 @@
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Hamtaro {
 
@@ -74,15 +79,22 @@ public class Hamtaro {
 
                     String details = userInput.substring(9);
                     String[] parts = details.split("/by", 2);
-                    Deadline deadline = new Deadline(parts[0],parts[1]);
-                    list.add(deadline);
-                    saveTasks(list);
+                    try{
+                        LocalDate by = Utils.parseDate(parts[1].stripLeading());
+                        Deadline deadline = new Deadline(parts[0],by);
+                        list.add(deadline);
+                        saveTasks(list);
 
-                    System.out.println("____________________________________________________________");
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(deadline.toString());
-                    System.out.println("Now you have " + list.size() + " tasks in the list");
-                    System.out.println("____________________________________________________________");
+                        System.out.println("____________________________________________________________");
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(deadline.toString());
+                        System.out.println("Now you have " + list.size() + " tasks in the list");
+                        System.out.println("____________________________________________________________");
+                    }
+                    catch(IllegalArgumentException i){
+                        System.out.println(i.getMessage());
+                    }
+
                 } catch (HamtaroException e) {
                     System.out.println(e.getMessage());
                 }
@@ -95,19 +107,24 @@ public class Hamtaro {
 
                     String[] parts = details.split(" /from | /to ");
 
-                    String description = parts[0];
-                    String from = parts[1];
-                    String to = parts[2];
 
-                    Event event = new Event(description,from,to);
-                    list.add(event);
-                    saveTasks(list);
+                    try{
+                        String description = parts[0];
+                        LocalDateTime from = Utils.parseDateTime(parts[1].stripLeading().stripTrailing());
+                        LocalDateTime to = Utils.parseDateTime(parts[2].stripLeading().stripTrailing());
+                        Event event = new Event(description,from,to);
+                        list.add(event);
+                        saveTasks(list);
 
-                    System.out.println("____________________________________________________________");
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(event.toString());
-                    System.out.println("Now you have " + list.size() + " tasks in the list");
-                    System.out.println("____________________________________________________________");
+                        System.out.println("____________________________________________________________");
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(event.toString());
+                        System.out.println("Now you have " + list.size() + " tasks in the list");
+                        System.out.println("____________________________________________________________");
+                    } catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+
                 } catch (HamtaroException e) {
                     System.out.println(e.getMessage());
                 }
@@ -183,3 +200,5 @@ public class Hamtaro {
         }
     }
 }
+
+
