@@ -23,16 +23,17 @@ public class Storage {
         return tasks;
     }
 
-    public static void saveTasks(List<Task> tasks) throws IOException {
+    public static void saveTasks(TaskList tasks) throws IOException {
         Path parent = FILE_PATH.getParent();
         if (parent != null) {
             Files.createDirectories(parent);
         }
 
         List<String> lines = new ArrayList<>();
-        for (Task task : tasks) {
-            lines.add(encodeTask(task));
+        for(int i = 0; i < tasks.getSize(); i++){
+            lines.add(encodeTask(tasks.getTask(i)));
         }
+
         Files.write(FILE_PATH, lines, StandardCharsets.UTF_8);
     }
 
@@ -70,4 +71,6 @@ public class Storage {
             throw new IOException("Invalid saved task: " + line, e);
         }
     }
+
+
 }
