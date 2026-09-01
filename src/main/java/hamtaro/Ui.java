@@ -1,6 +1,7 @@
 package hamtaro;
 
 import java.util.Scanner;
+import java.util.List;
 
 import hamtaro.task.Task;
 import hamtaro.task.TaskList;
@@ -71,6 +72,20 @@ public class Ui {
         for(int i = 0; i < tasks.getSize();i++){
             System.out.println( (i+1) + ". " +  tasks.getTask(i).toString());
         }
+    }
+
+    /** Displays the tasks whose descriptions matched a find keyword. */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        showLine();
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No matching tasks found.");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println((i + 1) + ". " + matchingTasks.get(i));
+            }
+        }
+        showLine();
     }
 
     public void showLine(){

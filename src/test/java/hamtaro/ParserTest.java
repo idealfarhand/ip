@@ -37,6 +37,14 @@ class ParserTest {
     }
 
     @Test
+    void parseCommand_validFind_returnsFindCommand() throws HamtaroException {
+        Command command = parser.parseCommand("find project");
+
+        assertEquals("FindCommand", command.getClass().getSimpleName());
+        assertEquals(false, command.changesTasks());
+    }
+
+    @Test
     void parseCommand_blankInput_throwsException() {
         HamtaroException exception = assertThrows(HamtaroException.class, () -> parser.parseCommand("   "));
 
@@ -50,5 +58,12 @@ class ParserTest {
 
         assertEquals("Invalid Argument Format! Usage: event [task description] /from [start] /to [end]",
                 exception.getMessage());
+    }
+
+    @Test
+    void parseCommand_findWithoutKeyword_throwsException() {
+        HamtaroException exception = assertThrows(HamtaroException.class, () -> parser.parseCommand("find"));
+
+        assertEquals("Invalid Argument Format! Usage: find [keyword]", exception.getMessage());
     }
 }

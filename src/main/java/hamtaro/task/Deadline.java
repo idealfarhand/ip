@@ -7,12 +7,13 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task{
     protected LocalDate by;
 
-
+    /** Creates an incomplete deadline task. */
     public Deadline(String description, LocalDate by){
         super(description);
         this.by = by;
     }
 
+    /** Creates a deadline task with its completion status restored from storage. */
     public Deadline(String description, LocalDate by, boolean isDone) {
         super(description, isDone);
         this.by = by;
@@ -23,6 +24,7 @@ public class Deadline extends Task{
         return this.by;
     }
 
+    /** Returns a displayable representation of this deadline task. */
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");

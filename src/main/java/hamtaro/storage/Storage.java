@@ -14,9 +14,11 @@ import hamtaro.task.TaskList;
 import hamtaro.task.Todo;
 import hamtaro.util.Utils;
 
+/** Saves tasks to and loads tasks from the application's local data file. */
 public class Storage {
     private static final Path FILE_PATH = Path.of("data", "hamtaro.txt");
 
+    /** Loads all persisted tasks, returning an empty list when no data file exists. */
     public static ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         if (!Files.exists(FILE_PATH)) {
@@ -31,6 +33,7 @@ public class Storage {
         return tasks;
     }
 
+    /** Saves every task in the supplied list to the local data file. */
     public static void saveTasks(TaskList tasks) throws IOException {
         Path parent = FILE_PATH.getParent();
         if (parent != null) {
@@ -45,6 +48,7 @@ public class Storage {
         Files.write(FILE_PATH, lines, StandardCharsets.UTF_8);
     }
 
+    /** Converts a task into the pipe-delimited format used in the data file. */
     private static String encodeTask(Task task) {
         String done = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
@@ -58,6 +62,7 @@ public class Storage {
         throw new IllegalArgumentException("Unsupported task type: " + task.getClass().getSimpleName());
     }
 
+    /** Recreates one task from a pipe-delimited line in the data file. */
     private static Task decodeTask(String line) throws IOException {
         String[] fields = line.split(" \\| ");
         boolean isDone = switch (fields.length > 1 ? fields[1] : "") {

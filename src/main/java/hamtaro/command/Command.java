@@ -27,6 +27,11 @@ public abstract class Command {
         return new ListCommand();
     }
 
+    /** Creates a command that finds tasks whose descriptions contain a keyword. */
+    public static Command find(String keyword) {
+        return new FindCommand(keyword);
+    }
+
     /** Creates a command that ends the application. */
     public static Command exit() {
         return new ExitCommand();
@@ -127,6 +132,20 @@ class ListCommand extends Command {
             throw new HamtaroException("Task list is empty! Add some tasks first!");
         }
         ui.showTaskList(tasks);
+    }
+}
+
+/** Displays tasks whose descriptions contain the given keyword. */
+class FindCommand extends Command {
+    private final String keyword;
+
+    FindCommand(String keyword) {
+        this.keyword = keyword;
+    }
+
+    @Override
+    public void execute(TaskList tasks, Ui ui) {
+        ui.showMatchingTasks(tasks.findTasks(keyword));
     }
 }
 

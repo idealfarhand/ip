@@ -26,6 +26,7 @@ public class Parser {
         case "deadline" -> Command.add(createDeadline(parts));
         case "event" -> Command.add(createEvent(parts));
         case "list" -> createListCommand(parts);
+        case "find" -> Command.find(parseFindKeyword(parts));
         case "bye" -> createExitCommand(parts);
         default -> throw new HamtaroException("Command doesn't exist!");
         };
@@ -89,6 +90,14 @@ public class Parser {
             throw new HamtaroException("Invalid Argument Length! Usage: list");
         }
         return Command.list();
+    }
+
+    /** Extracts the keyword supplied to a find command. */
+    private String parseFindKeyword(String[] parts) throws HamtaroException {
+        if (parts.length == 1 || parts[1].isBlank()) {
+            throw new HamtaroException("Invalid Argument Format! Usage: find [keyword]");
+        }
+        return parts[1];
     }
 
     private Command createExitCommand(String[] parts) throws HamtaroException {
