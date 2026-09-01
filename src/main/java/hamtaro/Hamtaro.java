@@ -1,11 +1,9 @@
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+package hamtaro;
+
+import hamtaro.command.Command;
+import hamtaro.exception.HamtaroException;
+import hamtaro.task.TaskList;
+import hamtaro.util.Utils;
 
 public class Hamtaro {
 

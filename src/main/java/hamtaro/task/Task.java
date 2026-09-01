@@ -1,4 +1,6 @@
 
+package hamtaro.task;
+
 /** Represents a task tracked by Hamtaro. */
 public class Task {
         private String description;

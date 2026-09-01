@@ -1,3 +1,5 @@
+package hamtaro.util;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,6 +8,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
+
+import hamtaro.storage.Storage;
+import hamtaro.task.TaskList;
 
 public class Utils {
 

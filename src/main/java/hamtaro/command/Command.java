@@ -1,7 +1,37 @@
-import java.util.ArrayList;
+package hamtaro.command;
+
+import hamtaro.Ui;
+import hamtaro.exception.HamtaroException;
+import hamtaro.task.Task;
+import hamtaro.task.TaskList;
 
 /** Represents one validated action requested by the user. */
 public abstract class Command {
+    /** Creates a command that adds a task. */
+    public static Command add(Task task) {
+        return new AddTaskCommand(task);
+    }
+
+    /** Creates a command that changes a task's completion state. */
+    public static Command mark(int taskNumber, boolean shouldMark) {
+        return new MarkCommand(taskNumber, shouldMark);
+    }
+
+    /** Creates a command that deletes a task. */
+    public static Command delete(int taskNumber) {
+        return new DeleteCommand(taskNumber);
+    }
+
+    /** Creates a command that displays all tasks. */
+    public static Command list() {
+        return new ListCommand();
+    }
+
+    /** Creates a command that ends the application. */
+    public static Command exit() {
+        return new ExitCommand();
+    }
+
     /** Performs this command using the current task list and user interface. */
     public abstract void execute(TaskList tasks, Ui ui) throws HamtaroException;
 

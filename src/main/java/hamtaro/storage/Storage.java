@@ -1,10 +1,18 @@
+package hamtaro.storage;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
+
+import hamtaro.task.Deadline;
+import hamtaro.task.Event;
+import hamtaro.task.Task;
+import hamtaro.task.TaskList;
+import hamtaro.task.Todo;
+import hamtaro.util.Utils;
 
 public class Storage {
     private static final Path FILE_PATH = Path.of("data", "hamtaro.txt");

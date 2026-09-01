@@ -1,3 +1,13 @@
+package hamtaro;
+
+import hamtaro.command.Command;
+import hamtaro.exception.HamtaroException;
+import hamtaro.task.Deadline;
+import hamtaro.task.Event;
+import hamtaro.task.Todo;
+import hamtaro.util.Utils;
+
+/** Converts user input into command objects. */
 public class Parser {
 
     /** Converts one line of input into the matching command object. */
@@ -9,12 +19,12 @@ public class Parser {
 
         String[] parts = input.split("\\s+", 2);
         return switch (parts[0]) {
-        case "mark" -> new MarkCommand(parseCommandTaskNumber(parts, "mark"), true);
-        case "unmark" -> new MarkCommand(parseCommandTaskNumber(parts, "unmark"), false);
-        case "delete" -> new DeleteCommand(parseCommandTaskNumber(parts, "delete"));
-        case "todo" -> new AddTaskCommand(createTodo(parts));
-        case "deadline" -> new AddTaskCommand(createDeadline(parts));
-        case "event" -> new AddTaskCommand(createEvent(parts));
+        case "mark" -> Command.mark(parseCommandTaskNumber(parts, "mark"), true);
+        case "unmark" -> Command.mark(parseCommandTaskNumber(parts, "unmark"), false);
+        case "delete" -> Command.delete(parseCommandTaskNumber(parts, "delete"));
+        case "todo" -> Command.add(createTodo(parts));
+        case "deadline" -> Command.add(createDeadline(parts));
+        case "event" -> Command.add(createEvent(parts));
         case "list" -> createListCommand(parts);
         case "bye" -> createExitCommand(parts);
         default -> throw new HamtaroException("Command doesn't exist!");
@@ -78,14 +88,14 @@ public class Parser {
         if (parts.length > 1) {
             throw new HamtaroException("Invalid Argument Length! Usage: list");
         }
-        return new ListCommand();
+        return Command.list();
     }
 
     private Command createExitCommand(String[] parts) throws HamtaroException {
         if (parts.length > 1) {
             throw new HamtaroException("Invalid Argument Length! Usage: bye");
         }
-        return new ExitCommand();
+        return Command.exit();
     }
 
     public void parseMark(String userInput, int arrayLen) throws HamtaroException {

@@ -1,6 +1,9 @@
-import java.io.IOException;
-import java.util.ArrayList;
+package hamtaro;
+
 import java.util.Scanner;
+
+import hamtaro.task.Task;
+import hamtaro.task.TaskList;
 
 public class Ui {
     private final Scanner scanner = new Scanner(System.in);
