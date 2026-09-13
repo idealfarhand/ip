@@ -15,16 +15,22 @@ public class TaskList {
 
     /** Creates a task list containing the supplied tasks. */
     public TaskList(ArrayList<Task> tasks) {
+        // Storage supplies a complete list; a null list would make every operation invalid.
+        assert tasks != null : "Task list storage must not be null";
         this.tasks = tasks;
     }
 
     /** Adds a task to the end of this list. */
     public void addTask(Task task){
+        // Commands create a task before handing it to the list.
+        assert task != null : "A task list cannot contain null tasks";
         tasks.add(task);
     }
 
     /** Removes and returns the task at the specified zero-based index. */
     public Task deleteTask(int index) {
+        // Callers use a zero-based index that must refer to an existing task.
+        assert index >= 0 && index < tasks.size() : "Task index must be valid";
         return tasks.remove(index);
     }
 
@@ -35,6 +41,8 @@ public class TaskList {
 
     /** Returns the task at the specified zero-based index. */
     public Task getTask(int index) {
+        // Callers use a zero-based index that must refer to an existing task.
+        assert index >= 0 && index < tasks.size() : "Task index must be valid";
         return this.tasks.get(index);
     }
 
