@@ -87,6 +87,8 @@ class MarkCommand extends Command {
             throw new HamtaroException("Task number " + taskNumber + " does not exist!");
         }
         Task task = tasks.getTask(taskNumber - 1);
+        // The validated task number must resolve to a real task in the list.
+        assert task != null : "A valid task number must resolve to a task";
         if (shouldMark) {
             task.mark();
             return ui.showTaskMarked(task);
@@ -115,6 +117,8 @@ class DeleteCommand extends Command {
         if (taskNumber < 1 || taskNumber > tasks.getSize()) {
             throw new HamtaroException("Task number " + taskNumber + " does not exist!");
         }
+        // The explicit range check above establishes a valid zero-based index.
+        assert taskNumber - 1 >= 0 && taskNumber - 1 < tasks.getSize();
         return ui.showTaskDeleted(tasks.deleteTask(taskNumber - 1));
     }
 

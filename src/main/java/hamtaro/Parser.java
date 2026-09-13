@@ -19,16 +19,16 @@ public class Parser {
 
         String[] parts = input.split("\\s+", 2);
         return switch (parts[0]) {
-        case "mark" -> Command.mark(parseCommandTaskNumber(parts, "mark"), true);
-        case "unmark" -> Command.mark(parseCommandTaskNumber(parts, "unmark"), false);
-        case "delete" -> Command.delete(parseCommandTaskNumber(parts, "delete"));
-        case "todo" -> Command.add(createTodo(parts));
-        case "deadline" -> Command.add(createDeadline(parts));
-        case "event" -> Command.add(createEvent(parts));
-        case "list" -> createListCommand(parts);
-        case "find" -> Command.find(parseFindKeyword(parts));
-        case "bye" -> createExitCommand(parts);
-        default -> throw new HamtaroException("Command doesn't exist!");
+            case "mark" -> Command.mark(parseCommandTaskNumber(parts, "mark"), true);
+            case "unmark" -> Command.mark(parseCommandTaskNumber(parts, "unmark"), false);
+            case "delete" -> Command.delete(parseCommandTaskNumber(parts, "delete"));
+            case "todo" -> Command.add(createTodo(parts));
+            case "deadline" -> Command.add(createDeadline(parts));
+            case "event" -> Command.add(createEvent(parts));
+            case "list" -> createListCommand(parts);
+            case "find" -> Command.find(parseFindKeyword(parts));
+            case "bye" -> createExitCommand(parts);
+            default -> throw new HamtaroException("Command doesn't exist!");
         };
     }
 
@@ -57,6 +57,8 @@ public class Parser {
         if (details.length != 2 || details[0].isBlank() || details[1].isBlank()) {
             throw new HamtaroException("Invalid Argument Format! Usage: deadline [task description] /by [deadline]");
         }
+        // The format check above guarantees exactly one non-blank description/date pair.
+        assert details.length == 2 && !details[0].isBlank() && !details[1].isBlank();
         try {
             return new Deadline(details[0], Utils.parseDate(details[1].trim()));
         } catch (IllegalArgumentException e) {
@@ -75,6 +77,8 @@ public class Parser {
                 || details.indexOf(" /to ", toIndex + 1) != -1) {
             throw new HamtaroException("Invalid Argument Format! Usage: event [task description] /from [start] /to [end]");
         }
+        // These positions are valid because the structural checks above succeeded.
+        assert fromIndex >= 1 && toIndex >= fromIndex;
         try {
             String description = details.substring(0, fromIndex);
             String from = details.substring(fromIndex + 7, toIndex).trim();
