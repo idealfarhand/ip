@@ -11,6 +11,8 @@ public class Event extends Task{
     /** Creates an incomplete event with a start and end time. */
     public Event(String description, LocalDateTime from, LocalDateTime to){
         super(description);
+        // Event times are parsed before construction and are required for display.
+        assert from != null && to != null : "An event must have start and end times";
         this.from = from;
         this.to = to;
     }
@@ -18,6 +20,8 @@ public class Event extends Task{
     /** Creates an event with its completion status restored from storage. */
     public Event(String description, LocalDateTime from, LocalDateTime to, boolean isDone) {
         super(description, isDone);
+        // Loaded records are expected to contain both parseable event times.
+        assert from != null && to != null : "An event must have start and end times";
         this.from = from;
         this.to = to;
     }

@@ -8,12 +8,16 @@ public class Task {
 
         /** Creates an incomplete task with the given description. */
         public Task(String d){
+            // Task descriptions come from validated commands or valid storage records.
+            assert d != null && !d.isBlank() : "A task must have a description";
             this.description = d;
             this.isDone = false;
         }
 
         /** Creates a task with the given description and completion status. */
         public Task(String d, boolean i){
+            // Restored tasks must satisfy the same invariant as newly created tasks.
+            assert d != null && !d.isBlank() : "A task must have a description";
             this.description = d;
             this.isDone = i;
         }
