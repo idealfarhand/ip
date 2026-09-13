@@ -32,6 +32,23 @@ public class Hamtaro {
         }
     }
 
+    public String getResponse(String input) {
+        Ui ui = new Ui();
+        Parser parser = new Parser();
+        TaskList tasks = Utils.loadTasks();
+
+        try {
+            Command command = parser.parseCommand(input);
+            String response = command.execute(tasks, ui);
+            if (command.changesTasks()) {
+                Utils.saveTasks(tasks);
+            }
+            return response;
+
+        } catch (HamtaroException e) {
+            return ui.showError(e.getMessage());
+        }
+    }
 }
 
 

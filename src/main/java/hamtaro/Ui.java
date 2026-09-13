@@ -9,17 +9,21 @@ import hamtaro.task.TaskList;
 public class Ui {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void showWelcome() {
-        System.out.println("____________________________________________________________");
-        String banner = "    __  __                __                 \n"
+    private final String line = "____________________________________________________________";
+
+    public String showWelcome() {
+
+        String welcome = line
+                + "    __  __                __                 \n"
                 + "   / / / /___ _____ ___  / /_____ __________ \n"
                 + "  / /_/ / __ `/ __ `__ \\/ __/ __ `/ ___/ __ \\\n"
                 + " / __  / /_/ / / / / / / /_/ /_/ / /  / /_/ /\n"
-                + "/_/ /_/\\__,_/_/ /_/ /_/\\__/\\__,_/_/   \\____/ \n";
-        System.out.println(banner);
-        System.out.println("Hello! I'm Hamtaro!.");
-        System.out.println("What can I do for you?");
-        System.out.println("____________________________________________________________");
+                + "/_/ /_/\\__,_/_/ /_/ /_/\\__/\\__,_/_/   \\____/ \n"
+                + "Hello! I'm Hamtaro!.\n"
+                + "What can I do for you?\n"
+                + line;
+
+        return welcome;
     }
 
     /** Reads one complete command from standard input. */
@@ -27,68 +31,91 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public void showGoodbye() {
-        System.out.println("____________________________________________________________");
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
+    public String showGoodbye() {
+
+        String goodbye = line
+                + "Bye. Hope to see you again soon!\n"
+                + line;
+
+        return goodbye;
     }
 
-    public void showError(String message){
-        showLine();
-        System.out.println(message);
-        showLine();
+    public String showError(String message) {
+        String error = line
+                + message
+                + line;
+
+        return error;
     }
 
-    public void showTaskAdded(Task task, int totalTasks) {
-        showLine();
-        System.out.println("Got it. I've added this task:");
-        System.out.println(task.toString());
-        System.out.println("Now you have " + totalTasks + " tasks in the list");
-        showLine();
+    public String showTaskAdded(Task task, int totalTasks) {
+
+        String taskAdded = line
+                + "Got it. I've added this task:\n"
+                + task.toString()
+                + "Now you have " + totalTasks + " tasks in the list\n"
+                + line;
+
+        return taskAdded;
     }
 
-    public void showTaskMarked(Task task) {
-        showLine();
-        System.out.println("Ok! I've marked this task as done: ");
-        System.out.println(task.toString());
-        showLine();
+    public String showTaskMarked(Task task) {
+
+        String taskMarked = line
+                + "Ok! I've marked this task as done: \n"
+                + task.toString()
+                + line;
+
+        return taskMarked;
     }
 
-    public void showTaskUnmarked(Task task) {
-        showLine();
-        System.out.println("Ok! I've marked this task as undone: ");
-        System.out.println(task.toString());
-        showLine();
+    public String showTaskUnmarked(Task task) {
+
+        String taskUnmarked = line
+                + "Ok! I've marked this task as undone: \n"
+                + task.toString()
+                + line;
+
+        return taskUnmarked;
     }
 
-    public void showTaskDeleted(Task task) {
-        showLine();
-        System.out.println("Okay! I've deleted this task: ");
-        System.out.println(task.toString());
-        showLine();
+    public String showTaskDeleted(Task task) {
+
+        String deleted = line + "Okay! I've deleted this task: "
+                + task.toString()
+                + line;
+
+        return deleted;
     }
 
-    public void showTaskList(TaskList tasks) {
-        for(int i = 0; i < tasks.getSize();i++){
-            System.out.println( (i+1) + ". " +  tasks.getTask(i).toString());
+    public String showTaskList(TaskList tasks) {
+
+        String taskList = "";
+        for (int i = 0; i < tasks.getSize(); i++) {
+            taskList += (i + 1) + ". " + tasks.getTask(i).toString() + "\n";
         }
+
+        return taskList;
     }
 
     /** Displays the tasks whose descriptions matched a find keyword. */
-    public void showMatchingTasks(List<Task> matchingTasks) {
+    public String showMatchingTasks(List<Task> matchingTasks) {
         showLine();
         if (matchingTasks.isEmpty()) {
-            System.out.println("No matching tasks found.");
+            String noMatch = line + "No matching tasks found." + line;
+            return noMatch;
         } else {
-            System.out.println("Here are the matching tasks in your list:");
+            String match = line + "Here are the matching tasks in your list: ";
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println((i + 1) + ". " + matchingTasks.get(i));
+                match += (i + 1) + ". " + matchingTasks.get(i);
             }
+
+            match += line;
+            return match;
         }
-        showLine();
     }
 
-    public void showLine(){
-        System.out.println("____________________________________________________________");
+    public String showLine() {
+        return "____________________________________________________________";
     }
 }

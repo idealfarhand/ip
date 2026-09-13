@@ -38,7 +38,7 @@ public abstract class Command {
     }
 
     /** Performs this command using the current task list and user interface. */
-    public abstract void execute(TaskList tasks, Ui ui) throws HamtaroException;
+    public abstract String execute(TaskList tasks, Ui ui) throws HamtaroException;
 
     /** Returns whether this command changes the task list. */
     public boolean changesTasks() {
@@ -60,9 +60,9 @@ class AddTaskCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui) {
+    public String execute(TaskList tasks, Ui ui) {
         tasks.addTask(task);
-        ui.showTaskAdded(task, tasks.getSize());
+        return ui.showTaskAdded(task, tasks.getSize());
     }
 
     @Override
@@ -82,17 +82,17 @@ class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui) throws HamtaroException {
+    public String execute(TaskList tasks, Ui ui) throws HamtaroException {
         if (taskNumber < 1 || taskNumber > tasks.getSize()) {
             throw new HamtaroException("Task number " + taskNumber + " does not exist!");
         }
         Task task = tasks.getTask(taskNumber - 1);
         if (shouldMark) {
             task.mark();
-            ui.showTaskMarked(task);
+            return ui.showTaskMarked(task);
         } else {
             task.unmark();
-            ui.showTaskUnmarked(task);
+            return ui.showTaskUnmarked(task);
         }
     }
 
@@ -111,11 +111,11 @@ class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui) throws HamtaroException {
+    public String execute(TaskList tasks, Ui ui) throws HamtaroException {
         if (taskNumber < 1 || taskNumber > tasks.getSize()) {
             throw new HamtaroException("Task number " + taskNumber + " does not exist!");
         }
-        ui.showTaskDeleted(tasks.deleteTask(taskNumber - 1));
+        return ui.showTaskDeleted(tasks.deleteTask(taskNumber - 1));
     }
 
     @Override
@@ -127,11 +127,11 @@ class DeleteCommand extends Command {
 /** Displays all current tasks. */
 class ListCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Ui ui) throws HamtaroException {
+    public String execute(TaskList tasks, Ui ui) throws HamtaroException {
         if (tasks.isEmpty()) {
             throw new HamtaroException("Task list is empty! Add some tasks first!");
         }
-        ui.showTaskList(tasks);
+        return ui.showTaskList(tasks);
     }
 }
 
@@ -144,16 +144,16 @@ class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui) {
-        ui.showMatchingTasks(tasks.findTasks(keyword));
+    public String execute(TaskList tasks, Ui ui) {
+        return ui.showMatchingTasks(tasks.findTasks(keyword));
     }
 }
 
 /** Displays a farewell and ends the application. */
 class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Ui ui) {
-        ui.showGoodbye();
+    public String execute(TaskList tasks, Ui ui) {
+        return ui.showGoodbye();
     }
 
     @Override
