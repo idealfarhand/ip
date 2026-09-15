@@ -17,6 +17,16 @@ public abstract class Command {
         return new MarkCommand(taskNumber, shouldMark);
     }
 
+    /** Creates a command that adds a tag to a task. */
+    public static Command tag(int taskNumber, String tag) {
+        return new TagCommand(taskNumber, tag, true);
+    }
+
+    /** Creates a command that removes a tag from a task. */
+    public static Command untag(int taskNumber, String tag) {
+        return new TagCommand(taskNumber, tag, false);
+    }
+
     /** Creates a command that deletes a task. */
     public static Command delete(int taskNumber) {
         return new DeleteCommand(taskNumber);
@@ -30,6 +40,11 @@ public abstract class Command {
     /** Creates a command that finds tasks whose descriptions contain a keyword. */
     public static Command find(String keyword) {
         return new FindCommand(keyword);
+    }
+
+    /** Creates a command that displays tasks with a given tag. */
+    public static Command findTag(String tag) {
+        return new FindTagCommand(tag);
     }
 
     /** Creates a command that ends the application. */
@@ -104,6 +119,38 @@ class MarkCommand extends Command {
     }
 }
 
+/** Adds or removes one tag from a task. */
+class TagCommand extends Command {
+    private final int taskNumber;
+    private final String tag;
+    private final boolean shouldAdd;
+
+    TagCommand(int taskNumber, String tag, boolean shouldAdd) {
+        this.taskNumber = taskNumber;
+        this.tag = tag;
+        this.shouldAdd = shouldAdd;
+    }
+
+    @Override
+    public String execute(TaskList tasks, Ui ui) throws HamtaroException {
+        if (taskNumber < 1 || taskNumber > tasks.getSize()) {
+            throw new HamtaroException("Task number " + taskNumber + " does not exist!");
+        }
+        Task task = tasks.getTask(taskNumber - 1);
+        if (shouldAdd) {
+            task.addTag(tag);
+            return ui.showTagAdded(task, tag);
+        }
+        task.removeTag(tag);
+        return ui.showTagRemoved(task, tag);
+    }
+
+    @Override
+    public boolean changesTasks() {
+        return true;
+    }
+}
+
 /** Deletes one task from the task list. */
 class DeleteCommand extends Command {
     private final int taskNumber;
@@ -150,6 +197,20 @@ class FindCommand extends Command {
     @Override
     public String execute(TaskList tasks, Ui ui) {
         return ui.showMatchingTasks(tasks.findTasks(keyword));
+    }
+}
+
+/** Displays tasks containing a given tag. */
+class FindTagCommand extends Command {
+    private final String tag;
+
+    FindTagCommand(String tag) {
+        this.tag = tag;
+    }
+
+    @Override
+    public String execute(TaskList tasks, Ui ui) {
+        return ui.showMatchingTasks(tasks.findTasksByTag(tag));
     }
 }
 

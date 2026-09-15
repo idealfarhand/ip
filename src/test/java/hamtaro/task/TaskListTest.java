@@ -31,4 +31,16 @@ class TaskListTest {
 
         assertEquals(List.of(), tasks.findTasks("exercise"));
     }
+
+    @Test
+    void findTasksByTag_matchesTagsIgnoringCase() {
+        Task matchingTask = new Todo("Go out");
+        matchingTask.addTag("#Fun");
+        Task nonMatchingTask = new Todo("Stay home");
+        TaskList tasks = new TaskList();
+        tasks.addTask(matchingTask);
+        tasks.addTask(nonMatchingTask);
+
+        assertEquals(List.of(matchingTask), tasks.findTasksByTag("FUN"));
+    }
 }

@@ -79,6 +79,16 @@ public class Ui {
         return taskUnmarked;
     }
 
+    /** Displays a successful tag addition. */
+    public String showTagAdded(Task task, String tag) {
+        return line + "Added #" + tag + " to this task:\n" + task + line;
+    }
+
+    /** Displays a successful tag removal. */
+    public String showTagRemoved(Task task, String tag) {
+        return line + "Removed #" + tag + " from this task:\n" + task + line;
+    }
+
     public String showTaskDeleted(Task task) {
 
         String deleted = line + "Okay! I've deleted this task: "

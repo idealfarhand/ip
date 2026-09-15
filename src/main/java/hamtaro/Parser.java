@@ -19,6 +19,8 @@ public class Parser {
 
         String[] parts = input.split("\\s+", 2);
         return switch (parts[0]) {
+            case "tag" -> Command.tag(parseTagTaskNumber(parts), parseTag(parts));
+            case "untag" -> Command.untag(parseTagTaskNumber(parts), parseTag(parts));
             case "mark" -> Command.mark(parseCommandTaskNumber(parts, "mark"), true);
             case "unmark" -> Command.mark(parseCommandTaskNumber(parts, "unmark"), false);
             case "delete" -> Command.delete(parseCommandTaskNumber(parts, "delete"));
@@ -40,6 +42,29 @@ public class Parser {
             throw new HamtaroException(parts[1] + " is not a number! Usage: " + command + " [task number]");
         }
         return Integer.parseInt(parts[1]);
+    }
+
+    private int parseTagTaskNumber(String[] parts) throws HamtaroException {
+        if (parts.length != 2 || parts[1].split("\\s+").length != 2) {
+            throw new HamtaroException("Invalid Argument Format! Usage: tag [task number] [#tag]");
+        }
+        String taskNumber = parts[1].split("\\s+")[0];
+        if (!Utils.isInteger(taskNumber)) {
+            throw new HamtaroException(taskNumber + " is not a number! Usage: tag [task number] [#tag]");
+        }
+        return Integer.parseInt(taskNumber);
+    }
+
+    private String parseTag(String[] parts) throws HamtaroException {
+        String[] arguments = parts.length == 2 ? parts[1].split("\\s+") : new String[0];
+        if (arguments.length != 2 || !arguments[1].startsWith("#")) {
+            throw new HamtaroException("Invalid Argument Format! Usage: tag [task number] [#tag]");
+        }
+        try {
+            return hamtaro.task.Task.normalizeTag(arguments[1]);
+        } catch (IllegalArgumentException e) {
+            throw new HamtaroException(e.getMessage());
+        }
     }
 
     private Todo createTodo(String[] parts) throws HamtaroException {
@@ -90,6 +115,13 @@ public class Parser {
     }
 
     private Command createListCommand(String[] parts) throws HamtaroException {
+        if (parts.length == 2 && parts[1].startsWith("#")) {
+            try {
+                return Command.findTag(hamtaro.task.Task.normalizeTag(parts[1]));
+            } catch (IllegalArgumentException e) {
+                throw new HamtaroException(e.getMessage());
+            }
+        }
         if (parts.length > 1) {
             throw new HamtaroException("Invalid Argument Length! Usage: list");
         }

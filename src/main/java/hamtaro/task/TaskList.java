@@ -67,4 +67,16 @@ public class TaskList {
         }
         return matchingTasks;
     }
+
+    /** Returns tasks containing the supplied tag, ignoring tag letter case. */
+    public List<Task> findTasksByTag(String tag) {
+        String normalizedTag = Task.normalizeTag(tag);
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.hasTag(normalizedTag)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
 }
