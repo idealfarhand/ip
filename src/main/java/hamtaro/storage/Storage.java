@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import hamtaro.task.Deadline;
 import hamtaro.task.Event;
@@ -52,12 +53,13 @@ public class Storage {
     private static String encodeTask(Task task) {
         String done = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
-            return "T | " + done + " | " + task.getDescription();
+            return "T | " + done + " | " + task.getDescription() + " | " + encodeTags(task.getTags());
         } else if (task instanceof Deadline deadline) {
-            return "D | " + done + " | " + task.getDescription() + " | " + deadline.getBy().toString();
+            return "D | " + done + " | " + task.getDescription() + " | " + deadline.getBy().toString()
+                    + " | " + encodeTags(task.getTags());
         } else if (task instanceof Event event) {
             return "E | " + done + " | " + task.getDescription() + " | "
-                    + event.getFrom() + " | " + event.getTo();
+                    + event.getFrom() + " | " + event.getTo() + " | " + encodeTags(task.getTags());
         }
         throw new IllegalArgumentException("Unsupported task type: " + task.getClass().getSimpleName());
     }
@@ -72,17 +74,32 @@ public class Storage {
         };
 
         try {
-            if (fields[0].equals("T") && fields.length == 3) {
-                return new Todo(fields[2], isDone);
-            } else if (fields[0].equals("D") && fields.length == 4) {
-                return new Deadline(fields[2], Utils.parseDate(fields[3]), isDone);
-            } else if (fields[0].equals("E") && fields.length == 5) {
-                return new Event(fields[2], Utils.parseDateTime(fields[3]), Utils.parseDateTime(fields[4]), isDone);
+            Task task;
+            if (fields[0].equals("T") && (fields.length == 3 || fields.length == 4)) {
+                task = new Todo(fields[2], isDone);
+            } else if (fields[0].equals("D") && (fields.length == 4 || fields.length == 5)) {
+                task = new Deadline(fields[2], Utils.parseDate(fields[3]), isDone);
+            } else if (fields[0].equals("E") && (fields.length == 5 || fields.length == 6)) {
+                task = new Event(fields[2], Utils.parseDateTime(fields[3]), Utils.parseDateTime(fields[4]), isDone);
+            } else {
+                throw new IOException("Invalid saved task: " + line);
             }
-            throw new IOException("Invalid saved task: " + line);
+            boolean hasTags = (fields[0].equals("T") && fields.length == 4)
+                    || (fields[0].equals("D") && fields.length == 5)
+                    || (fields[0].equals("E") && fields.length == 6);
+            if (hasTags && !fields[fields.length - 1].isBlank()) {
+                for (String tag : fields[fields.length - 1].split(",")) {
+                    task.addTag(tag);
+                }
+            }
+            return task;
         } catch (IllegalArgumentException e) {
             throw new IOException("Invalid saved task: " + line, e);
         }
+    }
+
+    private static String encodeTags(Set<String> tags) {
+        return String.join(",", tags);
     }
 
 

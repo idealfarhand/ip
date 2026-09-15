@@ -45,6 +45,22 @@ class ParserTest {
     }
 
     @Test
+    void parseCommand_validTag_returnsTagCommand() throws HamtaroException {
+        Command command = parser.parseCommand("tag 1 #Fun");
+
+        assertEquals("TagCommand", command.getClass().getSimpleName());
+        assertEquals(true, command.changesTasks());
+    }
+
+    @Test
+    void parseCommand_validTagFilter_returnsFindTagCommand() throws HamtaroException {
+        Command command = parser.parseCommand("list #fun");
+
+        assertEquals("FindTagCommand", command.getClass().getSimpleName());
+        assertEquals(false, command.changesTasks());
+    }
+
+    @Test
     void parseCommand_blankInput_throwsException() {
         HamtaroException exception = assertThrows(HamtaroException.class, () -> parser.parseCommand("   "));
 
