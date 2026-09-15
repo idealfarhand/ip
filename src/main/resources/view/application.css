@@ -1,6 +1,6 @@
 .main-root {
-    -fx-background-color: #f4f7fb;
-    -fx-font-family: "System";
+    -fx-background-color: #fff8e8;
+    -fx-font-family: "Trebuchet MS";
 }
 
 .content-shell {
@@ -8,13 +8,13 @@
 }
 
 .app-title {
-    -fx-text-fill: #243447;
+    -fx-text-fill: #5a3525;
     -fx-font-size: 26px;
     -fx-font-weight: bold;
 }
 
 .app-subtitle {
-    -fx-text-fill: #718096;
+    -fx-text-fill: #9b6b52;
     -fx-font-size: 13px;
     -fx-padding: -6px 0 4px 2px;
 }
@@ -22,20 +22,20 @@
 .conversation-pane {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-border-color: #dbe3ee;
+    -fx-border-color: #e7c9a9;
     -fx-border-radius: 12px;
     -fx-background-radius: 12px;
     -fx-padding: 4px;
 }
 
 .conversation-pane > .viewport {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fffdf8;
     -fx-background-radius: 9px;
 }
 
 .dialog-container {
     -fx-padding: 14px 12px;
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fffdf8;
 }
 
 .dialog-box {
@@ -43,7 +43,7 @@
 }
 
 .dialog-text {
-    -fx-text-fill: #243447;
+    -fx-text-fill: #4a2c20;
     -fx-font-size: 14px;
     -fx-line-spacing: 2px;
     -fx-padding: 10px 14px;
@@ -51,11 +51,11 @@
 }
 
 .user-dialog .dialog-text {
-    -fx-background-color: #d9ecff;
+    -fx-background-color: #f9dfc5;
 }
 
 .hamtaro-dialog .dialog-text {
-    -fx-background-color: #edf1f7;
+    -fx-background-color: #f5e9d8;
 }
 
 .input-bar {
@@ -64,8 +64,8 @@
 }
 
 .input-bar .text-field {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cbd5e1;
+    -fx-background-color: #fffdf8;
+    -fx-border-color: #dfbd98;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
     -fx-padding: 10px 12px;
@@ -73,12 +73,12 @@
 }
 
 .input-bar .text-field:focused {
-    -fx-border-color: #4f8cc9;
+    -fx-border-color: #d4773c;
     -fx-border-width: 2px;
 }
 
 .input-bar .button {
-    -fx-background-color: #357abd;
+    -fx-background-color: #c96732;
     -fx-background-radius: 8px;
     -fx-text-fill: white;
     -fx-font-size: 14px;
@@ -88,7 +88,7 @@
 }
 
 .input-bar .button:hover {
-    -fx-background-color: #28649c;
+    -fx-background-color: #a95127;
 }
 
 .scroll-bar:vertical {
@@ -97,6 +97,6 @@
 }
 
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #b8c5d6;
+    -fx-background-color: #d8aa7d;
     -fx-background-radius: 6px;
 }
