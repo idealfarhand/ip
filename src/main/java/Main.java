@@ -20,8 +20,12 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            scene.getStylesheets().add(Main.class.getResource("/view/application.css").toExternalForm());
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setHamtaro(hamtaro);
+            stage.setTitle("Hamtaro");
+            stage.setMinWidth(360.0);
+            stage.setMinHeight(420.0);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

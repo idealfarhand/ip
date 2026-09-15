@@ -47,12 +47,15 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.getStyleClass().add("user-dialog");
+        return dialogBox;
     }
 
     public static DialogBox getHamtaroDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        db.getStyleClass().add("hamtaro-dialog");
         return db;
     }
 }
