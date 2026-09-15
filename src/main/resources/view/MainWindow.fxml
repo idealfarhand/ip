@@ -17,8 +17,8 @@
     <children>
         <VBox spacing="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="content-shell">
-            <Label text="Hamtaro" styleClass="app-title" />
-            <Label text="Your friendly task companion" styleClass="app-subtitle" />
+            <Label text="Hamtaro's Cozy Corner" styleClass="app-title" />
+            <Label text="Squeak! Let's get your tasks sorted." styleClass="app-subtitle" />
             <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER"
                         minHeight="0.0" minWidth="0.0" vbarPolicy="AS_NEEDED"
                         VBox.vgrow="ALWAYS" styleClass="conversation-pane">
@@ -28,10 +28,10 @@
                 </content>
             </ScrollPane>
             <HBox spacing="10.0" styleClass="input-bar">
-                <TextField fx:id="userInput" promptText="Type a command..."
+                <TextField fx:id="userInput" promptText="Tell Hamtaro what to do..."
                            onAction="#handleUserInput" HBox.hgrow="ALWAYS" />
                 <Button fx:id="sendButton" mnemonicParsing="false"
-                        onAction="#handleUserInput" text="Send" defaultButton="true" />
+                        onAction="#handleUserInput" text="Squeak!" defaultButton="true" />
             </HBox>
         </VBox>
     </children>

@@ -19,8 +19,8 @@ public class Ui {
                 + "  / /_/ / __ `/ __ `__ \\/ __/ __ `/ ___/ __ \\\n"
                 + " / __  / /_/ / / / / / / /_/ /_/ / /  / /_/ /\n"
                 + "/_/ /_/\\__,_/_/ /_/ /_/\\__/\\__,_/_/   \\____/ \n"
-                + "Hello! I'm Hamtaro!.\n"
-                + "What can I do for you?\n"
+                + "Squeak! I'm Hamtaro, your little task hamster!\n"
+                + "What shall we get done today?\n"
                 + line;
 
         return welcome;
@@ -33,67 +33,56 @@ public class Ui {
 
     public String showGoodbye() {
 
-        String goodbye = line
-                + "Bye. Hope to see you again soon!\n"
-                + line;
+        String goodbye = "Squeak you later! Keep those tasks nice and tidy.\n";
 
         return goodbye;
     }
 
     public String showError(String message) {
-        String error = line
-                + message
-                + line;
+        String error = "Oh no, a little hamster hiccup!\n" + message;
 
         return error;
     }
 
     public String showTaskAdded(Task task, int totalTasks) {
 
-        String taskAdded = line
-                + "Got it. I've added this task:\n"
+        String taskAdded =
+                "Squeak! I tucked this task into your list:\n"
                 + task.toString()
-                + "Now you have " + totalTasks + " tasks in the list\n"
-                + line;
+                + "Your task nest now has " + totalTasks + " task(s).\n";
 
         return taskAdded;
     }
 
     public String showTaskMarked(Task task) {
 
-        String taskMarked = line
-                + "Ok! I've marked this task as done: \n"
-                + task.toString()
-                + line;
+        String taskMarked = "All done! I did a happy wheel spin for this task:\n" + task.toString();
 
         return taskMarked;
     }
 
     public String showTaskUnmarked(Task task) {
 
-        String taskUnmarked = line
-                + "Ok! I've marked this task as undone: \n"
-                + task.toString()
-                + line;
+        String taskUnmarked = "No worries! I put this task back in the to-do pile:\n"
+                + task.toString();
 
         return taskUnmarked;
     }
 
     /** Displays a successful tag addition. */
     public String showTagAdded(Task task, String tag) {
-        return line + "Added #" + tag + " to this task:\n" + task + line;
+        return "Squeak! I stuck the #" + tag + " label on this task:\n" + task ;
     }
 
     /** Displays a successful tag removal. */
     public String showTagRemoved(Task task, String tag) {
-        return line + "Removed #" + tag + " from this task:\n" + task + line;
+        return "I peeled the #" + tag + " label off this task:\n" + task ;
     }
 
     public String showTaskDeleted(Task task) {
 
-        String deleted = line + "Okay! I've deleted this task: "
-                + task.toString()
-                + line;
+        String deleted = "Into the hamster shredder it goes! I removed this task:\n"
+                + task.toString();
 
         return deleted;
     }
@@ -112,15 +101,13 @@ public class Ui {
     public String showMatchingTasks(List<Task> matchingTasks) {
         showLine();
         if (matchingTasks.isEmpty()) {
-            String noMatch = line + "No matching tasks found." + line;
+            String noMatch = "No matching tasks found. The hamster sniffed everywhere!";
             return noMatch;
         } else {
-            String match = line + "Here are the matching tasks in your list: ";
+            String match = "I found these little task treats for you:\n";
             for (int i = 0; i < matchingTasks.size(); i++) {
-                match += (i + 1) + ". " + matchingTasks.get(i);
+                match += (i + 1) + ". " + matchingTasks.get(i) + "\n";
             }
-
-            match += line;
             return match;
         }
     }
